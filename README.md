@@ -1,7 +1,7 @@
 # Notyza para Python
 
 O cliente oficial da API do [Notyza](https://notyza.com.br): NFS-e, NF-e, NFC-e e MDF-e para empresas do Simples Nacional, e a
-conferência dos webhooks assinados. Só a biblioteca padrão, Python 3.9+.
+conferência dos webhooks assinados. Só a biblioteca padrão, Python 3.10+.
 
 ## Instalar
 

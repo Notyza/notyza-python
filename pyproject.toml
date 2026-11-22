@@ -7,7 +7,7 @@ name = "notyza"
 version = "0.1.0"
 description = "Cliente oficial da API do Notyza: NFS-e, NF-e, NFC-e e MDF-e, e webhooks assinados."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 dependencies = []
 
