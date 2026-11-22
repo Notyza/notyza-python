@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "notyza"
+version = "0.1.0"
+description = "Cliente oficial da API do Notyza: NFS-e, NF-e, NFC-e e MDF-e, e webhooks assinados."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = []
+
+[project.urls]
+Homepage = "https://notyza.com.br/docs"
+Source = "https://github.com/notyza/notyza-python"
+
+[tool.setuptools]
+packages = ["notyza"]
