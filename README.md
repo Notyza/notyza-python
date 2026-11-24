@@ -6,8 +6,10 @@ conferência dos webhooks assinados. Só a biblioteca padrão, Python 3.10+.
 ## Instalar
 
 ```bash
-pip install git+https://github.com/notyza/notyza-python
+pip install notyza
 ```
+
+[![PyPI](https://img.shields.io/pypi/v/notyza)](https://pypi.org/project/notyza/)
 
 ## Emitir
 
