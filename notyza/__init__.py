@@ -17,7 +17,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-from typing import Any, Callable, Dict, Iterable, Optional
+from typing import Any, Callable, Dict, Iterable, List, Optional
 
 __all__ = ["Notyza", "NotyzaError", "verify_webhook"]
 __version__ = "0.1.0"
@@ -139,6 +139,33 @@ class _Mdfe(_Resource):
         return self._client.request("GET", f"/v1/mdfe/open{_query({'issuer': issuer})}")
 
 
+class _Cte(_Resource):
+    def issue(self, cte: Json) -> Json:
+        return self._doc("POST", "/v1/cte", cte)
+
+    def get(self, id: str, issuer: Optional[str] = None) -> Json:
+        return self._client.request("GET", f"/v1/cte/{_id(id)}{_query({'issuer': issuer})}")
+
+    def correct(self, id: str, corrections: List[Json], issuer: Optional[str] = None) -> Json:
+        """A carta de correção: [{"group", "field", "value", "item"?}]; never values, parties or dates."""
+        return self._client.request("POST", f"/v1/cte/{_id(id)}/correction", {"corrections": corrections, **({"issuer": issuer} if issuer else {})})
+
+    def cancel(self, id: str, **body: Any) -> Json:
+        return self._doc("POST", f"/v1/cte/{_id(id)}/cancel", body)
+
+    def complement(self, id: str, body: Json) -> Json:
+        """The value that was missing of an authorized freight (the same parties)."""
+        return self._doc("POST", f"/v1/cte/{_id(id)}/complement", body)
+
+    def substitute(self, id: str, body: Json) -> Json:
+        """The same freight with what was wrong fixed; SEFAZ accepts it after the tomador's disagreement."""
+        return self._doc("POST", f"/v1/cte/{_id(id)}/substitute", body)
+
+    def disagree(self, key: str, reason: str, issuer: Optional[str] = None) -> Json:
+        """The tomador's side: the service of a CT-e it paid for was not as agreed."""
+        return self._client.request("POST", "/v1/cte/disagreement", {"key": key, "reason": reason, **({"issuer": issuer} if issuer else {})})
+
+
 class _Issuers(_Resource):
     def create(self, body: Json) -> Json:
         return self._client.request("POST", "/v1/issuers", body)
@@ -212,6 +239,7 @@ class Notyza:
         self.nfe = _Nfe(self, "/v1/nfe")
         self.nfce = _Goods(self, "/v1/nfce")
         self.mdfe = _Mdfe(self, "/v1/mdfe")
+        self.cte = _Cte(self, "/v1/cte")
         self.issuers = _Issuers(self, "/v1/issuers")
         self.webhooks = _Webhooks(self, "/v1/webhooks")
         self.lookups = _Lookups(self, "/v1/public")
